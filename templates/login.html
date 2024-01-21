@@ -1,0 +1,62 @@
+  {% extends "base.html" %}
+  {% load static %}
+
+  {% block title %} login Page {% endblock title %}  
+  {% block content %}
+    <!--Navbar-->
+    {% include "templates/navbar.html" %}
+
+    <!--Main Content-->
+    <div class="container">
+      <div class="row">
+          <div class="col-4 offset-4 mt-5 p-1 rounded border-secondary bg-light">
+              <h4 class="text-dark fw-bold py-3 text-center">Log In</h4>
+
+              <form action="{% url 'log-in' %}" method="post" novalidate>
+                  {% csrf_token %}
+
+                  {% for fm in form  %}
+                      <div class="px-2">
+                          {% comment %} <label for="{{ fm.name.id_for_label }}" class="form-label">Name</label> {% endcomment %}
+                          {{ fm.label_tag }}
+                          {{ fm }}
+                          <p class="text-danger" style="font-size: 0.9rem;">{{ fm.errors | striptags }}</p>
+                      </div>                   
+                  {% endfor %}
+
+                  <!--password reset link-->
+                  <div class="mb-3 p-0 ms-2">
+                    <a href="{% url 'password-reset' %}" class="text-decoration-none">Forgot Password?</a>
+                </div>    
+
+                  <!--displaying form.non_field_errors-->
+                  {% if form.non_field_errors %}                    
+                        {% for error in form.non_field_errors %}
+                            <p style="font-size: 0.9rem;" class="px-3 text-danger">{{error}}</p>
+                        {% endfor %}             
+                  {% endif %}    
+                  <button type="submit" class="btn btn-primary  ms-2">Login</button>
+              </form>
+
+              <div class="path mt-2">
+                  <p>Don't have an account?
+                      <a href="{% url "sign-up" %}">Sign Up</a>
+                  </p>
+              </div>
+          </div>
+      </div>
+      <!--row for displaying messages-->
+      <div class="row mt-3">
+        <div class="col-4 offset-4">
+            {% if messages %}
+                {% for message in messages  %}
+                    <p class="text-success fw-bold text-center" style="font-size: 0.9rem;">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+            <!--error disp when email is not verified-->
+            <p class="text-center fw-bold text-danger" style="font-size: 0.9rem;">{{error}}</p>
+        </div>
+      </div>
+    </div>
+  {% endblock content %}
+ 

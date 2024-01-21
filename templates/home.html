@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home Page {% endblock title %}
+
+{% block content %}
+    <!--navbar-->
+    {% include "templates/navbar.html" %}
+
+    {% if request.user.is_authenticated %}
+      <div class="container">
+        <div class="row">
+          <div class="col-8 offset-2">
+            <div class="card mt-5">
+              <div class="card-body">
+                <p class="text-success fw-bold">Authenticated User</p>
+                <p> welcome to website <strong class="text-secondary">{{request.user}}</strong></p>
+                <div class="buttons d-flex justify-content-start">
+                  <a href="{% url "log-out" %}" class="px-2 btn btn-primary">logout</a>
+                  <a href="{% url "password_change" %}" class="px-2 ms-3 btn btn-primary">change Password</a>
+                </div>
+              </div>
+            </div>        
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="container">
+        <div class="row">
+          <div class="col-8 offset-2">
+            <div class="card mt-5">
+              <div class="card-body">
+                <p class="text-danger fw-bold">Anonymous User</p>
+                <a href="{% url "log-in" %}" class="btn btn-primary">login</a>
+                <a href="{% url "sign-up" %}" class="btn btn-primary">signup</a>             
+              </div>
+            </div>           
+          </div>
+        </div>
+      </div>    
+    {% endif %}
+{% endblock content %}
+

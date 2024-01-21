@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Verify OTP Page {% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-10 offset-1 d-flex justify-content-center">
+                <div class="card p-2 bg-light" style="width: 28rem;">
+                    <h5 class="card-title text-center p-2">OTP Verification</h5>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'verify-otp' name=user.name %}">
+                            {% csrf_token %}
+                            <label for="otp">Enter OTP:</label>
+                            <input type="text" name="otp" class="form-control p-2 mb-3" required>
+                            <button type="submit" class="btn btn-primary">Verify OTP</button>
+                        </form>                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3 p-2">
+            <div class="col-10 offset-1">
+                {% if error %}
+                    <p class="text-center text-danger" style="font-size: 1rem;">{{ error }}</p>
+                {% else %}
+                    <p class="text-center text-dark" style="font-size: 1rem;">A six digit code has been sent to your email please check and verify your account?</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
